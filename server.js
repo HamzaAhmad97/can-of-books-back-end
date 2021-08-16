@@ -29,6 +29,9 @@ const getKey = (header, callback) => {
   });
 };
 
+router.route('/').get((req, res) => {
+  res.send( 'up and running ... ' );  
+});
 
 router.route('/authorize').get( (req, res) => {
   console.log(req.headers.authorization );
