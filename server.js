@@ -8,10 +8,13 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3001;
 app.use(cors());
+
 app.use('/', router); 
 const profileAuthfunc = require('./controllers/profileAuthfunc');
 const getBooks = require('./controllers/getBooks');
 const testFunc = require('./controllers/testFunc');
+
+
 
 mongoose.connect('mongodb://localhost:27017/books', { useNewUrlParser: true, seUnifiedTopology: true });
 const connection = mongoose.connection;
