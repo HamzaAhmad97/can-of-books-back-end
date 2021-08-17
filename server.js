@@ -1,52 +1,45 @@
 'use strict';
 
+// configs
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const router = express.Router();
 const cors = require('cors');
 const mongoose = require('mongoose');
 const PORT = process.env.PORT || 3001;
-app.use(cors());
+const bodyParser = require('body-parser');
 
-app.use('/', router); 
+//use
+app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(bodyParser.raw());
+
+//own modules
+const addBook = require('./controllers/addBook');
+const deleteBook = require('./controllers/deleteBook');
 const profileAuthfunc = require('./controllers/profileAuthfunc');
 const getBooks = require('./controllers/getBooks');
 const testFunc = require('./controllers/testFunc');
+const seedBook = require('./controllers/seedBook');
+const bookSchema = require('./models/bookSchema');
+const Book = mongoose.model('books', bookSchema);
 
-
-
+// start mongodb & mongoose
 mongoose.connect('mongodb://localhost:27017/books', { useNewUrlParser: true, seUnifiedTopology: true });
 const connection = mongoose.connection;
 connection.once('open', () => console.log('MongoDB connection established successfully'));
 
-router.route('/authorize').get(profileAuthfunc);
+//endpoints
+app.post('/books', addBook);
 
-router.route('/books').get(getBooks);
+app.get('/authorize',profileAuthfunc);
 
-router.route('/').get(testFunc);
+app.get('/books',getBooks);
+
+app.get('/',testFunc);
+
+app.delete('/books/:id', deleteBook);
 
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
 
-
-
-// // defining the schema
-// const bookSchema = new Schema({
-//   title: String,
-//   description: String,
-//   status: String,
-//   email: String
-// });
-
-// defining the book model
-///////////////////////////////////
-
-// const seedBook = ({title, description, status, email}) => {
-//   const nBook = new Book({
-//     title: title,
-//     description: description,
-//     status: status,
-//     email: email
-//   });
-//   nBook.save();
-// }
