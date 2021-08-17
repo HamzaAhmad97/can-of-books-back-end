@@ -11,6 +11,7 @@ app.use(cors());
 app.use('/', router); 
 const profileAuthfunc = require('./controllers/profileAuthfunc');
 const getBooks = require('./controllers/getBooks');
+const testFunc = require('./controllers/testFunc');
 
 mongoose.connect('mongodb://localhost:27017/books', { useNewUrlParser: true, seUnifiedTopology: true });
 const connection = mongoose.connection;
@@ -20,7 +21,11 @@ router.route('/authorize').get(profileAuthfunc);
 
 router.route('/books').get(getBooks);
 
+router.route('/').get(testFunc);
+
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
+
+
 
 // // defining the schema
 // const bookSchema = new Schema({
