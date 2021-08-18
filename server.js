@@ -21,9 +21,7 @@ const deleteBook = require('./controllers/deleteBook');
 const profileAuthfunc = require('./controllers/profileAuthfunc');
 const getBooks = require('./controllers/getBooks');
 const testFunc = require('./controllers/testFunc');
-const seedBook = require('./controllers/seedBook');
-const bookSchema = require('./models/bookSchema');
-const Book = mongoose.model('books', bookSchema);
+const updateBook = require('./controllers/updateBook');
 
 // start mongodb & mongoose
 mongoose.connect('mongodb://localhost:27017/books', { useNewUrlParser: true, seUnifiedTopology: true });
@@ -32,14 +30,12 @@ connection.once('open', () => console.log('MongoDB connection established succes
 
 //endpoints
 app.post('/books', addBook);
-
 app.get('/authorize',profileAuthfunc);
-
 app.get('/books',getBooks);
-
 app.get('/',testFunc);
-
 app.delete('/books/:id', deleteBook);
+app.put('/books/:id', updateBook);
 
+//start server at port
 app.listen(PORT, () => console.log(`listening on ${PORT}`));
 
